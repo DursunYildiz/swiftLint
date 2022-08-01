@@ -12,8 +12,10 @@ import PackagePlugin
 @main
 struct SwiftLintPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-        [
-           
+        let packageURL = URL(fileURLWithPath: #file).deletingLastPathComponent()
+        let fileURL = packageURL.appendingPathComponent("swiftlint" + ".yml")
+      return  [
+        
             .buildCommand(
                 displayName: "Linting \(target.name)...",
                 executable: try context.tool(named: "swiftlint").path,
@@ -21,7 +23,7 @@ struct SwiftLintPlugin: BuildToolPlugin {
                     "lint",
                     "--in-process-sourcekit",
                     "--config",
-                    "\(context.pluginWorkDirectory.string)/Plugins/SwiftLintPlugin/swiftlint.yml",
+                    fileURL.description,
                     "--path",
                     target.directory.string // only lint the files in the target directory
                 ],
