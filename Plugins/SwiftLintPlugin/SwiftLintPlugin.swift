@@ -5,27 +5,34 @@
 //  Created by Dursun YILDIZ on 29.07.2022.
 //
 
-import Foundation
-
 import PackagePlugin
+import Foundation
 
 @main
 struct SwiftLintPlugin: BuildToolPlugin {
-    func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-        let packageURL = URL(fileURLWithPath: #file).deletingLastPathComponent()
-        let fileURL = packageURL.appendingPathComponent("swiftlint" + ".yml")
-      return  [
-        
+    var isPreview: Bool {
+        ProcessInfo
+            .processInfo
+            .environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+    }
+    func createBuildCommands(
+        context: PluginContext,
+        target: Target
+    ) async throws -> [Command] {
+        if isPreview {
+            return []
+        }
+        return [
             .buildCommand(
-                displayName: "Linting \(target.name)...",
+                displayName: "Running SwiftLint for \(target.name)",
                 executable: try context.tool(named: "swiftlint").path,
                 arguments: [
                     "lint",
                     "--in-process-sourcekit",
-                    "--config",
-                    fileURL.description,
                     "--path",
-                    target.directory.string // only lint the files in the target directory
+                    target.directory.string,
+                    "--config",
+                    "\(context.package.directory.string)/.swiftlint.yml"
                 ],
                 environment: [:]
             )
