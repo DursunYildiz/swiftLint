@@ -10,7 +10,7 @@ import Foundation
 import PackagePlugin
 
 @main
-struct SwiftLintPlugins: BuildToolPlugin {
+struct SwiftLintPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
         [
             .buildCommand(
