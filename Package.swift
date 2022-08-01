@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftLintLibrary",
+    name: "SwiftLintPlugin",
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .plugin(
-            name: "SwiftLintLibrary",
-            targets: ["SwiftLintLibrary"]),
+            name: "SwiftLintPlugin",
+            targets: ["SwiftLintPlugin"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -28,13 +28,6 @@ let package = Package(
             name: "SwiftLintPlugin",
             capability: .buildTool(),
             dependencies: ["SwiftLintBinary"]
-        ),
-        .target(
-            name: "SwiftLintLibrary",
-            dependencies: [],
-        plugins: ["SwiftLintPlugin"]),
-        .testTarget(
-            name: "SwiftLintLibraryTests",
-            dependencies: ["SwiftLintLibrary"]),
+        )
     ]
 )
