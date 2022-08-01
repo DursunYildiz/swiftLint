@@ -7,7 +7,7 @@ let package = Package(
     name: "SwiftLintLibrary",
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(
+        .plugin(
             name: "SwiftLintLibrary",
             targets: ["SwiftLintLibrary"]),
     ],
