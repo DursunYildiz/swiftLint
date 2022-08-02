@@ -29,7 +29,8 @@ struct SwiftLintPlugin: BuildToolPlugin {
                     "lint",
                     "--in-process-sourcekit",
                     "--path",
-                    target.directory.string
+                    target.directory.string,
+                    "\(context.package.directory.string)/.swiftlint.yml"
                 ],
                 environment: [:]
             )
