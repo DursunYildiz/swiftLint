@@ -22,15 +22,15 @@ struct SwiftLintPlugin: BuildToolPlugin {
             return []
         }
         return [
-            .buildCommand(
-                displayName: "Run SwiftLint for \(target.name)",
+             .buildCommand(
+                displayName: "Linting \(target.name)...",
                 executable: try context.tool(named: "swiftlint").path,
                 arguments: [
                     "lint",
                     "--in-process-sourcekit",
-                    "--path",
-                    target.directory.string,
-                    "\(context.package.directory.string)/.swiftlint.yml"
+                    "--config",
+                    "\(context.package.directory.string)/Plugins/SwiftLintPlugin/.swiftlint.yml",
+                    target.directory.string   // only lint the files in the target directory
                 ],
                 environment: [:]
             )
